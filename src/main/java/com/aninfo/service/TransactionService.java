@@ -1,8 +1,5 @@
 package com.aninfo.service;
-
-import com.aninfo.exceptions.InvalidTransactionTypeException;
 import com.aninfo.model.Transaction;
-import com.aninfo.model.TransactionType;
 import com.aninfo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
