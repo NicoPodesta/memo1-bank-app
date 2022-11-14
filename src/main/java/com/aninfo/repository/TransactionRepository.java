@@ -1,17 +1,13 @@
 package com.aninfo.repository;
 
-import com.aninfo.model.Account;
+import com.aninfo.model.Transaction;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
 @RepositoryRestResource
-public interface AccountRepository extends CrudRepository<Account, Long> {
+public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 
-    Account findAccountByCbu(Long cbu);
-
-    @Override
-    List<Account> findAll();
-
+    List<Transaction> findTransactionsByCbu(Long cbu);
 }
