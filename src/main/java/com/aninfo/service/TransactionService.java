@@ -1,5 +1,6 @@
 package com.aninfo.service;
 
+import com.aninfo.exceptions.InvalidTransactionTypeException;
 import com.aninfo.model.Transaction;
 import com.aninfo.model.TransactionType;
 import com.aninfo.repository.TransactionRepository;
@@ -13,18 +14,9 @@ import java.util.Optional;
 public class TransactionService {
 
     @Autowired
-    private AccountService accountService;
     private TransactionRepository transactionRepository;
 
-    public TransactionService(AccountService accountService) {
-        this.accountService = accountService;
-    }
     public Transaction createTransaction(Transaction transaction) {
-        if (transaction.getType() == TransactionType.DEPOSIT) {
-            accountService.deposit(transaction.getCbu(), transaction.getSum());
-        } else {
-            accountService.withdraw(transaction.getCbu(), transaction.getSum());
-        }
         return transactionRepository.save(transaction);
     }
 

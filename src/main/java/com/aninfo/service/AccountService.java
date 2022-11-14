@@ -1,5 +1,6 @@
 package com.aninfo.service;
 
+import com.aninfo.exceptions.CbuNotFoundException;
 import com.aninfo.exceptions.DepositNegativeSumException;
 import com.aninfo.exceptions.InsufficientFundsException;
 import com.aninfo.model.Account;
@@ -41,6 +42,10 @@ public class AccountService {
     public Account withdraw(Long cbu, Double sum) {
         Account account = accountRepository.findAccountByCbu(cbu);
 
+        if (account == null) {
+            throw new CbuNotFoundException("Cbu not found");
+        }
+
         if (account.getBalance() < sum) {
             throw new InsufficientFundsException("Insufficient funds");
         }
@@ -53,7 +58,6 @@ public class AccountService {
 
     @Transactional
     public Account deposit(Long cbu, Double sum) {
-
         if (sum <= 0) {
             throw new DepositNegativeSumException("Cannot deposit negative sums");
         }
@@ -66,6 +70,11 @@ public class AccountService {
         }
 
         Account account = accountRepository.findAccountByCbu(cbu);
+
+        if (account == null) {
+            throw new CbuNotFoundException("Cbu not found");
+        }
+
         account.setBalance(account.getBalance() + sum);
         accountRepository.save(account);
 

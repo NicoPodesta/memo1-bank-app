@@ -1,7 +1,9 @@
 package com.aninfo;
 
+import com.aninfo.exceptions.InvalidTransactionTypeException;
 import com.aninfo.model.Account;
 import com.aninfo.model.Transaction;
+import com.aninfo.model.TransactionType;
 import com.aninfo.service.AccountService;
 import com.aninfo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,13 @@ public class Memo1BankApp {
 	@PostMapping("/transactions")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transaction createTransaction(@RequestBody Transaction transaction) {
+		if (transaction.getType() == TransactionType.DEPOSIT) {
+			accountService.deposit(transaction.getCbu(), transaction.getSum());
+		} else if (transaction.getType() == TransactionType.WITHDRAW) {
+			accountService.withdraw(transaction.getCbu(), transaction.getSum());
+		} else {
+			throw new InvalidTransactionTypeException("Invalid transaction type");
+		}
 		return transactionService.createTransaction(transaction);
 	}
 
